@@ -23,6 +23,26 @@ namespace Capstone.Windows
         public Logon()
         {
             InitializeComponent();
+            
+        }
+
+        private void LogonClicked(object sender, RoutedEventArgs e)
+        {
+            Sql db = new();
+            string uName = usernameBox.Text;
+            string pass = passwordBox.Text;
+
+            User logingIn = new User();
+            logingIn = db.getDB().Table<User>().FirstOrDefault(u=>u.getUName() == uName && u.getPassword() == pass);
+
+            if (logingIn.Uid > 0) 
+            {
+            
+            }
+            else 
+            {
+                
+            }
         }
     }
 }

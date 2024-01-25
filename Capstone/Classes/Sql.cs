@@ -8,6 +8,7 @@ namespace Capstone.Classes
         readonly SQLiteConnection db;
         private static string dbPath = "..\\..\\..\\Data.db";
 
+        public SQLiteConnection getDB() { return db; }
         public Sql()
         {
             db = new SQLiteConnection(dbPath);
@@ -43,7 +44,7 @@ namespace Capstone.Classes
 
                     case "User":
                         db.CreateTable<User>();
-                        User usr = new User("test","test");
+                        User usr = new("test","test");
                         db.Insert(usr);
                         break;
                 }

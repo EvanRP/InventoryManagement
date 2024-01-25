@@ -12,8 +12,7 @@
 
         <Label x:Name="passwordLabel" Content="Password:" HorizontalAlignment="Left" Margin="293,193,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.183,0.958"/>
         <TextBox x:Name="passwordBox" TextWrapping="Wrap" Width="120" Margin="364,195,316,217"/>
-        
-        <Button x:Name="Logon" Content="Logon" HorizontalAlignment="Left" Margin="444,232,0,0" VerticalAlignment="Top"/>
 
+        <Button x:Name="LogonButton" Content="Logon" HorizontalAlignment="Left" Margin="444,232,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
