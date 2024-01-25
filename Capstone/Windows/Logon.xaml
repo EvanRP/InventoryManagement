@@ -1,0 +1,19 @@
+﻿<Window x:Class="Capstone.Windows.Logon"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Capstone.Windows"
+        mc:Ignorable="d"
+        Title="Inventory Management" Height="450" Width="800">
+    <Grid>
+        <Label x:Name="usernameLabel" Content="Username:" HorizontalAlignment="Left" Margin="293,165,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.183,0.958"/>
+        <TextBox x:Name="usernameBox" TextWrapping="Wrap" Width="120" Margin="364,167,316,245"/>
+
+        <Label x:Name="passwordLabel" Content="Password:" HorizontalAlignment="Left" Margin="293,193,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.183,0.958"/>
+        <TextBox x:Name="passwordBox" TextWrapping="Wrap" Width="120" Margin="364,195,316,217"/>
+        
+        <Button x:Name="Logon" Content="Logon" HorizontalAlignment="Left" Margin="444,232,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
