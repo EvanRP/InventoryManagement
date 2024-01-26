@@ -168,20 +168,20 @@ namespace Capstone.Windows
 
         public MainWindow()
         {
-            if (inv == null)
-            {
-                readData(@"..\\..\\..\\Data.txt");
-            }
+            //if (inv == null)
+            //{
+            //    readData(@"..\\..\\..\\Data.txt");
+            //}
  
             InitializeComponent();
-            PartsTable.ItemsSource = share.inv.allParts;
-            ProductTable.ItemsSource = share.inv.allProducts;
+            //PartsTable.ItemsSource = share.inv.allParts;
+            //ProductTable.ItemsSource = share.inv.allProducts;
         }
        
         //Page Buttons
         private void ExitClicked(object sender, RoutedEventArgs e)
         {
-            writeData(@"..\\..\\..\\Data.txt");
+            //writeData(@"..\\..\\..\\Data.txt");
             this.Close();
         }
 

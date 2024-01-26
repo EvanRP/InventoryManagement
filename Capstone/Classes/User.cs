@@ -12,14 +12,11 @@ namespace Capstone.Classes
     class User
     {
         [PrimaryKey, AutoIncrement]
-        public int Uid { get; private set; }
-        private string UName;
-        private string Password;
+        public int Uid { get; set; }
+        public string UName {  get; set; }
+        public string Password { get; set; }
        
-        public string getUName()
-        {
-            return this.UName;
-        }
+        
         public string getPassword()
         {
             return this.Password;
@@ -27,6 +24,7 @@ namespace Capstone.Classes
         
         public User()
         {
+            this.Uid = 0;
             this.UName = "";
             this.Password = "";
         }

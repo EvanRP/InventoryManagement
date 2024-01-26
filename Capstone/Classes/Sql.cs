@@ -1,4 +1,5 @@
 ﻿using SQLite;
+//using System.Data.SQLite;
 
 namespace Capstone.Classes
 
@@ -26,7 +27,7 @@ namespace Capstone.Classes
 
         public void createTable(string tableName)
         {
-            if(tableExists(tableName))
+            if(!tableExists(tableName))
             {
                 switch (tableName)
                 {
@@ -51,10 +52,11 @@ namespace Capstone.Classes
             }
         }
 
-        public User getUser(string uName, string passHash)
+        public User getUser(string uName)
         {
-            User u = new();
-            return u;
+            User usr = new();
+            usr = db.Table<User>().FirstOrDefault(u => u.UName == uName);
+            return usr;
         }
     }
 }

@@ -32,11 +32,10 @@ namespace Capstone.Windows
             string uName = usernameBox.Text;
             string pass = User.HashPass(passwordBox.Text);
 
-            User logingIn = new User();
+            User logingIn = new();
+            logingIn = db.getUser(uName);
 
-            
-
-            if (logingIn.Uid > 0) 
+            if (logingIn != null && logingIn.Password == pass) 
             {
                 MainWindow mainW = new MainWindow();
                 mainW.Show();
