@@ -23,25 +23,28 @@ namespace Capstone.Windows
         public Logon()
         {
             InitializeComponent();
-            
+            logonError.Visibility = Visibility.Hidden;
         }
 
         private void LogonClicked(object sender, RoutedEventArgs e)
         {
             Sql db = new();
             string uName = usernameBox.Text;
-            string pass = passwordBox.Text;
+            string pass = User.HashPass(passwordBox.Text);
 
             User logingIn = new User();
-            logingIn = db.getDB().Table<User>().FirstOrDefault(u=>u.getUName() == uName && u.getPassword() == pass);
+
+            
 
             if (logingIn.Uid > 0) 
             {
-            
+                MainWindow mainW = new MainWindow();
+                mainW.Show();
+                this.Close();
             }
             else 
             {
-                
+                logonError.Visibility = Visibility.Visible;
             }
         }
     }

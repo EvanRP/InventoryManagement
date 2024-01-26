@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SQLite;
+using System.Security.Cryptography;
 
 namespace Capstone.Classes
 
@@ -33,12 +34,27 @@ namespace Capstone.Classes
         {
             this.Uid = id;
             this.UName = name;
-            this.Password = pass;
+            this.Password = HashPass(pass);
         }
         public User(string name , string pass)
         {
             this.UName = name;
-            this.Password = pass;
+            this.Password = HashPass(pass);
+        }
+
+        public static string HashPass(string pass)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(pass));
+
+                StringBuilder sb = new();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    sb.Append(bytes[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
         }
     }
 }

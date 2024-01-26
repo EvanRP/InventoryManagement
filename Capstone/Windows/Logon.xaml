@@ -5,14 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Capstone.Windows"
         mc:Ignorable="d"
-        Title="Inventory Management" Height="450" Width="800">
+        Title="Inventory Management" Height="450" Width="850">
     <Grid>
-        <Label x:Name="usernameLabel" Content="Username:" HorizontalAlignment="Left" Margin="293,165,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.183,0.958"/>
-        <TextBox x:Name="usernameBox" TextWrapping="Wrap" Width="120" Margin="364,167,316,245"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="271*"/>
+            <ColumnDefinition Width="289*"/>
+            <ColumnDefinition Width="240*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="151*"/>
+            <RowDefinition Height="42*"/>
+            <RowDefinition Height="32*"/>
+            <RowDefinition Height="209*"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="usernameLabel" Content="Username:" HorizontalAlignment="Left" Margin="22,14,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.183,0.958" Grid.Row="1" Grid.Column="1"/>
+        <TextBox x:Name="usernameBox" TextWrapping="Wrap" Width="120" Margin="93,16,76,4" Grid.Row="1" Grid.Column="1"/>
 
-        <Label x:Name="passwordLabel" Content="Password:" HorizontalAlignment="Left" Margin="293,193,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.183,0.958"/>
-        <TextBox x:Name="passwordBox" TextWrapping="Wrap" Width="120" Margin="364,195,316,217"/>
+        <Label x:Name="passwordLabel" Content="Password:" HorizontalAlignment="Left" Margin="22,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.183,0.958" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"/>
+        <TextBox x:Name="passwordBox" TextWrapping="Wrap" Width="120" Margin="93,2,76,8" Grid.Row="2" Grid.Column="1"/>
 
-        <Button x:Name="LogonButton" Content="Logon" HorizontalAlignment="Left" Margin="444,232,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="LogonButton" Content="Logon" HorizontalAlignment="Left" Margin="173,7,0,0" VerticalAlignment="Top" Grid.Row="3" Grid.Column="1" Click="LogonClicked"/>
+        <Label x:Name="logonError" Content="The Username or Password is incorrect." HorizontalAlignment="Left" Margin="15,87,0,0" VerticalAlignment="Top" Width="228" Grid.Column="1"/>
     </Grid>
 </Window>

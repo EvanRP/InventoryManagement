@@ -8,7 +8,7 @@ namespace Capstone.Classes
         readonly SQLiteConnection db;
         private static string dbPath = "..\\..\\..\\Data.db";
 
-        public SQLiteConnection getDB() { return db; }
+        //public SQLiteConnection getDB() { return db; }
         public Sql()
         {
             db = new SQLiteConnection(dbPath);
@@ -49,6 +49,12 @@ namespace Capstone.Classes
                         break;
                 }
             }
+        }
+
+        public User getUser(string uName, string passHash)
+        {
+            User u = new();
+            return u;
         }
     }
 }
