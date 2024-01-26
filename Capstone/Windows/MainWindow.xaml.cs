@@ -185,5 +185,11 @@ namespace Capstone.Windows
         {
             selectedProduct = (Product)ProductTable.SelectedItem;
         }
+
+        private void reportClicked(object sender, RoutedEventArgs e)
+        {
+            Report r = new Report();
+            r.Show();
+        }
     }
 }

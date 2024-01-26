@@ -69,7 +69,7 @@
         <Button Name="partSearch" Content="Search" Click="partSearchClicked" Width="50" Height="20" Margin="279,5,35,5" Grid.Row="2" Grid.Column="2"/>
         <TextBox Name="productTextBox" Width="200" Height="20" Margin="96,5,115,5" Grid.Column="3" Grid.Row="2"/>
         <Button Name="productSearch" Content="Search" Click="productSearchClicked" Width="50" Height="20" Margin="296,5,65,5" Grid.Column="3" Grid.Row="2"></Button>
-        <Button x:Name="report" Grid.Column="3" Content="Low Inventory Report" HorizontalAlignment="Left" Margin="217,0,0,0" VerticalAlignment="Center" Width="129" Grid.Row="1"/>
+        <Button x:Name="report" Grid.Column="3" Content="Low Inventory Report" HorizontalAlignment="Left" Margin="217,0,0,0" VerticalAlignment="Center" Width="129" Grid.Row="1" Click="reportClicked"/>
 
 
     </Grid>
