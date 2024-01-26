@@ -167,7 +167,12 @@ namespace Capstone.Windows
             // if dsuccess is true product was deleted
             if (selectedProduct != null)
             {   
-                    share.inv.removeProduct(selectedProduct.productID);
+                bool del = share.inv.removeProduct(selectedProduct.productID);
+
+                if( !del )
+                {
+                    MessageBox.Show($"Product not deleted.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
