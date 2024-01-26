@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,7 +11,9 @@ namespace Capstone.Classes
 {
     class Product
     {
-        public BindingList<Part> associatedParts { get; private set; }
+        //public BindingList<Part> associatedParts { get; private set; }
+        public string associatedParts { get; set; }
+        [PrimaryKey]
         public int productID { get; set; }
         public string name { get; set; }
         public decimal price { get; set; } 
@@ -19,10 +22,10 @@ namespace Capstone.Classes
         public int max { get; set; }
 
         // Constructor
-        public Product(BindingList<Part> blPart, int proId, string n, decimal p, int stock, int inMin, int inMax)
+        public Product(string partIdList, int proId, string n, decimal p, int stock, int inMin, int inMax)
         {
             this.productID = proId;
-            this.associatedParts = blPart;
+            this.associatedParts = partIdList;
             this.name = n;
             this.price = p;
             this.inStock = stock;
@@ -30,25 +33,94 @@ namespace Capstone.Classes
             this.max = inMax;
 
         }
-
+        public Product()
+        {
+            this.productID = 0;
+            this.associatedParts = "";
+            this.name = "";
+            this.price= 0.0M;
+            this.inStock = 0;
+            this.min = 0;
+            this.max = 0;
+        }
         // Methods
 
         public void addAssociatedPart(Part x)
         {
-            this.associatedParts.Add(x);
+            //this.associatedParts.Add(x);
+            if(this.associatedParts.Length > 0)
+            {
+                string id = ",";
+                id = id + x.partID.ToString();
+                this.associatedParts += id;
+            }
+            else
+            {
+                this.associatedParts = x.partID.ToString();
+            }
         }
 
         public bool removeAssociatedPart(int x)
         {
+            string toReplace = x.ToString();
+            string[] list = this.associatedParts.Split(',');
+           
+            foreach (string id in list)
+            {
+                if(id == toReplace)
+                {
+                    if (this.associatedParts.Length > 1)
+                    {
+                        toReplace = "," + toReplace;
+                        this.associatedParts = this.associatedParts.Replace(toReplace, "");
+                        return true;
+                    }
+                    else
+                    {
+                        this.associatedParts = "";
+                        return true;
+                    }
+                }
+            }
+            return false;
             
-            Part partToRemove = this.associatedParts.FirstOrDefault(p => p.partID == x);
-            return this.associatedParts.Remove(partToRemove);
         }
 
         public Part lookupAssoicatedPart(int x)
         {
+            Sql db = new();
 
-            return this.associatedParts.FirstOrDefault(p => p.partID == x);      
+            return db.GetPart(x);
+                  
+        }
+        public BindingList<Part> GetAssociatedParts()
+        {
+            string[] pids = this.associatedParts.Split(",");
+            BindingList<Part> blParts = new BindingList<Part>();
+
+            foreach (string id in pids)
+            {
+                blParts.Add(lookupAssoicatedPart(int.Parse(id)));
+            }
+            return blParts;
+        }
+
+        public static string PartsListToString(BindingList<Part> blParts)
+        {
+            string pidList = "";
+            foreach (Part p in blParts)
+            {
+                if (pidList.Length > 0)
+                {
+                    string toAdd = "," + p.partID.ToString();
+                    pidList += toAdd;
+                }
+                else
+                {
+                    pidList = p.partID.ToString();
+                }
+            }
+            return pidList;
         }
     }
 }

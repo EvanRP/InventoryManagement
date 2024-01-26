@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Capstone.Windows"
         mc:Ignorable="d"
-        Title="MainWindow" Height="545" Width="805">
+        Title="MainWindow" Height="550" Width="805">
 
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
@@ -27,8 +27,7 @@
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
-        <!--Frame-->
-        <!--<Frame x:Name="mainFrame" NavigationUIVisibility="Hidden" Grid.ColumnSpan="4" Grid.RowSpan="8"/>-->
+
         <!--Tables -->
         <DataGrid Name="PartsTable" AutoGenerateColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" Width="350" Margin="4,10,10,22" SelectionChanged="selectedPartRow" Grid.Row="3" Grid.Column="2" IsReadOnly="True">
             <DataGrid.Columns>
@@ -62,18 +61,16 @@
         <Button Name="delProduct" Content="Delete" Click="delProductClick" Width="50" Height="20" Margin="302,3,59,9" Grid.Column="3" Grid.Row="4"  />
 
         <!--Other Page Buttons -->
-        <Label Content="Parts" FontSize="16" FontWeight="Bold" Margin="34,36,305,234" Grid.RowSpan="3" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" />
-        <Label Content="Products" FontSize="16" FontWeight="Bold" Margin="1,36,318,239" Grid.Column="3" Grid.RowSpan="3" Grid.Row="1"/>
+        <Label Content="Parts" FontSize="16" FontWeight="Bold" Margin="34,45,305,0" Grid.RowSpan="2" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1" />
+        <Label Content="Products" FontSize="16" FontWeight="Bold" Margin="1,45,318,0" Grid.Column="3" Grid.RowSpan="2" Grid.Row="1"/>
         <Label Content="Inventory Management System" FontSize="16" FontWeight="Bold" Margin="4,4,135,21" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="1"/>
         <Button Name="Exit" Content="Exit" Click="ExitClicked" Width="50" Height="20" Margin="302,7,59,4" Grid.Column="3" Grid.Row="6" />
-        <TextBox Name="partTextBox" Width="200" Height="20" Margin="104,16,60,5" Grid.Row="1" Grid.Column="2"/>
-        <Button Name="partSearch" Content="Search" Click="partSearchClicked" Width="50" Height="20" Margin="304,14,10,7" Grid.Row="1" Grid.Column="2"/>
-        <TextBox Name="productTextBox" Width="200" Height="20" Margin="110,19,101,2" Grid.Column="3" Grid.Row="1"/>
-        <Button Name="productSearch" Content="Search" Click="productSearchClicked" Width="50" Height="20" Margin="310,18,51,3" Grid.Column="3" Grid.Row="1"></Button>
-        <!-- -->
+        <TextBox Name="partTextBox" Width="200" Height="20" Margin="79,5,85,5" Grid.Row="2" Grid.Column="2"/>
+        <Button Name="partSearch" Content="Search" Click="partSearchClicked" Width="50" Height="20" Margin="279,5,35,5" Grid.Row="2" Grid.Column="2"/>
+        <TextBox Name="productTextBox" Width="200" Height="20" Margin="96,5,115,5" Grid.Column="3" Grid.Row="2"/>
+        <Button Name="productSearch" Content="Search" Click="productSearchClicked" Width="50" Height="20" Margin="296,5,65,5" Grid.Column="3" Grid.Row="2"></Button>
+        <Button x:Name="report" Grid.Column="3" Content="Low Inventory Report" HorizontalAlignment="Left" Margin="217,0,0,0" VerticalAlignment="Center" Width="129" Grid.Row="1"/>
 
-
-        <!-- -->
 
     </Grid>
 </Window>

@@ -31,6 +31,7 @@ namespace Capstone.Classes
 
         public bool removeProduct(int x)
         {
+            Sql db = new();
             Product toRemove = this.allProducts.FirstOrDefault(p => p.productID == x);
             //return this.allProducts.Remove(toRemove);
             if (toRemove.associatedParts.Count() == 0)
@@ -39,6 +40,7 @@ namespace Capstone.Classes
 
                 if (A == MessageBoxResult.Yes)
                 {
+                    db.DeleteObject(toRemove);
                     return this.allProducts.Remove(toRemove);
                 }
                 else
@@ -76,9 +78,12 @@ namespace Capstone.Classes
 
         public bool deletePart(Part p) 
         {
+            Sql db = new();
             SharedData share = (Application.Current as App).Shared;
-            Product isPartOfProduct = this.allProducts.FirstOrDefault(t => t.associatedParts.Contains(p),null);
+            Product isPartOfProduct = this.allProducts.FirstOrDefault(t => t.associatedParts.Contains(p.partID.ToString()),null);
             MessageBoxResult A;
+            int rowsDeleted = 0;
+
             if (isPartOfProduct != null)
             {
                 //Get conformation that part is to be removed from product
@@ -100,17 +105,32 @@ namespace Capstone.Classes
                 {
                     //remove from product
                     //and remove partid from inhouse and outsoured id lists
-                    isPartOfProduct.associatedParts.Remove(p);
-                    if (share.inHouseIDs.Contains(p.partID))
+                    
+                    isPartOfProduct.removeAssociatedPart(p.partID);
+
+                    bool isInhouse = db.IsInhouse(p.partID);
+                    
+                    if (isInhouse)
                     {
-                        share.inHouseIDs.Remove(p.partID);
+                        Inhouse n = p as Inhouse;
+                        rowsDeleted = db.DeleteObject(n);
+                        this.allParts.Remove(p);
                     }
-                    else if (share.outSourcedIDs.Contains(p.partID))
+                    else
                     {
-                        share.outSourcedIDs.Remove(p.partID);
+                        Outsourced o = p as Outsourced;
+                        rowsDeleted = db.DeleteObject(o);
+                        this.allParts.Remove(p);
                     }
-                    //return bool of of deleted part
-                    return this.allParts.Remove(p);
+                    //return bool of odeleted part
+                    if(rowsDeleted > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -125,16 +145,29 @@ namespace Capstone.Classes
                 {
                     //remove from product
                     //and remove partid from inhouse and outsoured id lists
-                    if (share.inHouseIDs.Contains(p.partID))
+                    bool isInhouse = db.IsInhouse(p.partID);
+
+                    if (isInhouse)
                     {
-                        share.inHouseIDs.Remove(p.partID);
+                        Inhouse n = p as Inhouse;
+                        rowsDeleted = db.DeleteObject(n);
+                        this.allParts.Remove(p);
                     }
-                    else if (share.outSourcedIDs.Contains(p.partID))
+                    else
                     {
-                        share.outSourcedIDs.Remove(p.partID);
+                        Outsourced o = p as Outsourced;
+                        rowsDeleted = db.DeleteObject(o);
+                        this.allParts.Remove(p);
                     }
-                    //return bool of of deleted part
-                    return this.allParts.Remove(p);
+                    //return bool of odeleted part
+                    if (rowsDeleted > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -152,15 +185,17 @@ namespace Capstone.Classes
 
         public void updatePart(int x, Part p)
         {
+            Sql db = new();
             Part toUpdate = this.allParts.FirstOrDefault(thing => thing.partID == x,null);
-            Product isPartOfProduct = this.allProducts.FirstOrDefault(t => t.associatedParts.Contains(toUpdate), null);
+            Product isPartOfProduct = this.allProducts.FirstOrDefault(t => t.associatedParts.Contains(toUpdate.partID.ToString()), null);
 
             if (isPartOfProduct != null)
             {
-                isPartOfProduct.associatedParts.Remove(toUpdate);
-                isPartOfProduct.associatedParts.Add(p);
+                //isPartOfProduct.associatedParts.Remove(toUpdate);
+                isPartOfProduct.removeAssociatedPart(toUpdate.partID);
+                isPartOfProduct.addAssociatedPart(p);
             }
-
+            
             this.allParts.Remove(toUpdate);
             this.allParts.Add(p);
             

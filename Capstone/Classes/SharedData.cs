@@ -11,13 +11,6 @@ namespace Capstone.Classes
     internal class SharedData 
     {
         public Inventory inv { get; set; }
-        public List<int> inHouseIDs { get; set; }
-        public List<int> outSourcedIDs { get; set; }
-
-        public int lastPartId { get; set; }
-
-        public int lastProductId { get; set; }
-
 
     }
 }

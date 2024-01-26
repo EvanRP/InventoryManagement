@@ -20,5 +20,15 @@ namespace Capstone.Classes
             this.max = inMax;
             this.machineID = mID;
         }
+        public Inhouse()
+        {
+            this.partID = 0;
+            this.name = "";
+            this.price = 0.0M;
+            this.inStock = 0;
+            this.min = 0;
+            this.max = 0;
+            this.machineID = 0;
+        }
     }
 }

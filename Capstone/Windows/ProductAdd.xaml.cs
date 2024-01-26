@@ -16,27 +16,17 @@ namespace Capstone.Windows
         SharedData share = (Application.Current as App).Shared;
         Part selectedAddPart;
         Part selectedProductPart;
+        int nextId;
 
         public ProductAdd()
         {
             //Get Product Id
-            if (share.lastProductId == 0)
-            {
-                int x = 0;
-                foreach (Product p in share.inv.allProducts)
-                {
-                    if (p.productID > x)
-                    {
-                        x = p.productID;
-                    }
-                }
-                share.lastProductId = x;
-            }
-            share.lastProductId += 1;
+            Sql db = new();
+            nextId = db.GetNextId("product");
 
             InitializeComponent();
 
-            IdTextBox.Text = share.lastProductId.ToString();
+            IdTextBox.Text = nextId.ToString();
             partsList = new BindingList<Part>();
 
             PartsTable.ItemsSource = share.inv.allParts;
@@ -165,14 +155,16 @@ namespace Capstone.Windows
             int min = int.Parse(MinTextBox.Text);
             int max = int.Parse(MaxTextBox.Text);
             int stock = int.Parse(InventoryTextBox.Text);
-            Product x = share.inv.allProducts.FirstOrDefault(x => x.productID == int.Parse(IdTextBox.Text), null);
+            Sql db = new();
+
             if (min <= max && stock <= max && stock >= min)
             {
-                
-                    
                 //Create new Product and add it to inventory
-                Product p = new Product(partsList, int.Parse(IdTextBox.Text),NameTextBox.Text, decimal.Parse(PriceTextBox.Text), int.Parse(InventoryTextBox.Text), int.Parse(MinTextBox.Text), int.Parse(MaxTextBox.Text));
+                
+                Product p = new Product(Product.PartsListToString(partsList), int.Parse(IdTextBox.Text),NameTextBox.Text, decimal.Parse(PriceTextBox.Text), int.Parse(InventoryTextBox.Text), int.Parse(MinTextBox.Text), int.Parse(MaxTextBox.Text));
                 share.inv.addProduct(p);
+                db.AddToDB(p);
+
                 this.Close();
                 
             }
@@ -195,7 +187,6 @@ namespace Capstone.Windows
 
         private void closeClicked(object sender, RoutedEventArgs e)
         {
-            share.lastProductId -= 1;
             this.Close();
         }
     }

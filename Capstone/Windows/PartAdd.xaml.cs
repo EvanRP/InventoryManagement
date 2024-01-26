@@ -23,6 +23,7 @@ namespace Capstone.Windows
         bool isIn;
         int machineID;
         string cName;
+        int nextId;
 
         private void checkNull()
         {
@@ -89,23 +90,12 @@ namespace Capstone.Windows
         }
         public PartAdd()
         {
+            Sql db = new();
             mainInv = share.inv;
-            if (share.lastPartId == 0)
-            {
-                int x = 0;
-                foreach (Part p in share.inv.allParts)
-                {
-                    if (p.partID > x)
-                    {
-                        x = p.partID;
-                    }
-                }
-                share.lastPartId = x;
-            }
-            share.lastPartId += 1;
+            nextId = db.GetNextId("part");
             
             InitializeComponent();
-            partTextBox.Text = share.lastPartId.ToString();
+            partTextBox.Text = nextId.ToString();
         }
 
         private void inHouseChecked(object sender, RoutedEventArgs e)
@@ -131,6 +121,7 @@ namespace Capstone.Windows
 
         private void saveClicked(object sender, RoutedEventArgs e)
         {
+            Sql db = new();
             iD = int.Parse(partTextBox.Text);
             name = nameTextBox.Text;
             stock = int.Parse(inventoryTextBox.Text);
@@ -147,7 +138,7 @@ namespace Capstone.Windows
                     machineID = int.Parse(machineTextBox.Text);
                     Inhouse n = new Inhouse(iD, name, price, stock, min, max, machineID);
                     mainInv.updatePart(iD, n);
-                    share.inHouseIDs.Add(iD);
+                    db.AddToDB(n);
                     this.Close();
                 }
                 // if OutSourced is checked create new part and update part
@@ -155,9 +146,9 @@ namespace Capstone.Windows
                 else
                 {
                     cName = companyTextBox.Text;
-                    Outsourced n = new Outsourced(iD, name, price, stock, min, max, cName);
-                    mainInv.updatePart(iD, n);
-                    share.outSourcedIDs.Add(iD);
+                    Outsourced o = new Outsourced(iD, name, price, stock, min, max, cName);
+                    mainInv.updatePart(iD, o);
+                    db.AddToDB(o);
                     this.Close();
                 }
             }
@@ -182,7 +173,7 @@ namespace Capstone.Windows
 
         private void closeClicked(object sender, RoutedEventArgs e) 
         {
-            share.lastPartId -= 1;
+            
             this.Close();
         }
     }

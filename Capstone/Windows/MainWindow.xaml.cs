@@ -20,168 +20,26 @@ namespace Capstone.Windows
         Product selectedProduct;
         SharedData share = (Application.Current as App).Shared;
         Inventory inv;
-
-        // Pages
         
-
-        public void readData(string dataPath)
-        {
-            BindingList<Part> aParts = new BindingList<Part>();
-            BindingList<Product> aProducts = new BindingList<Product>();
-            List<int> inHouseIDs = new List<int>();
-            List<int> sourcedIDs = new List<int>();
-            string[] sections = File.ReadAllLines(dataPath);
-
-            inv = new Inventory(aProducts, aParts);
-            share.inv = inv;
-            share.inHouseIDs = inHouseIDs;
-            share.outSourcedIDs = sourcedIDs;
-
-            foreach (string section in sections)
-            {
-                string[] sec = section.Split(',');
-                //check is line is a part
-                if (sec.Length == 8)
-                {
-                    //check is part is outsourced
-                    if (sec[6] == "N/A")
-                    {
-                        Outsourced o = new Outsourced(int.Parse(sec[0]), sec[1], decimal.Parse(sec[2]), int.Parse(sec[3]), int.Parse(sec[4]), int.Parse(sec[5]), sec[7]);
-                        //Part change = o as Part;
-                        aParts.Add(o) ;
-                        sourcedIDs.Add(int.Parse(sec[0]));
-                    }
-                    //check is part is inhouse
-                    else if (sec[7] == "N/A")
-                    {
-                        Inhouse i = new Inhouse(int.Parse(sec[0]), sec[1], decimal.Parse(sec[2]), int.Parse(sec[3]), int.Parse(sec[4]), int.Parse(sec[5]), int.Parse(sec[6]));
-                        //Part change = i as Part;
-                        aParts.Add(i);
-                        //inHouseIDs.Add(i.partID);
-                        inHouseIDs.Add(i.partID);
-                    }
-                    
-                    else
-                    {
-                        //Error
-                    }
-                }
-                else if(sec.Length == 7)
-                {
-                    // line is a Product
-                    //Split part ids
-                    string[] proParts = sec[0].Split(';');
-                    //create part bindingList
-                    BindingList<Part> proPartsList = new BindingList<Part>();
-                    for (int q = 0; q < proParts.Count(); q++)
-                    {
-                        string s = proParts[q];
-                        bool isInt = int.TryParse(s, out _);
-                        if (isInt)
-                        {
-                            int pid = int.Parse(proParts[q]);
-                            Part par = share.inv.lookupPart(pid);
-                            proPartsList.Add(par);
-                        }
-                        else
-                        {
-                            Console.WriteLine(s);
-                        }
-
-                    }
-                    Product pro = new Product(proPartsList, int.Parse(sec[1]), sec[2], decimal.Parse(sec[3]), int.Parse(sec[4]), int.Parse(sec[5]), int.Parse(sec[6]));
-                    share.inv.addProduct(pro);
-                }
-                
-            }
-
-            
-        }
-
-        public void writeData(string dataPath)
-        {
-            try
-            {
-                using (StreamWriter saveData = new StreamWriter(dataPath, false, Encoding.UTF8))
-                {
-                    
-                    foreach (Part p in share.inv.allParts)
-                    {
-                        bool isDone = false;
-                        if (!isDone)
-                        {
-                            for (int a = 0; a < share.inHouseIDs.Count(); a++)
-                            {
-                                // write Inhouse parts
-                                if (p.partID == share.inHouseIDs[a])
-                                {
-                                    Inhouse i = p as Inhouse;
-                                    saveData.WriteLine($"{i.partID},{i.name},{i.price},{i.inStock},{i.min},{i.max},{i.machineID},N/A");
-                                    isDone = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (!isDone)
-                        {
-                            for (int a = 0; a < share.outSourcedIDs.Count(); a++)
-                            {
-                                // Write Outsourced Parts
-                                if (p.partID == share.outSourcedIDs[a])
-                                {
-                                    Outsourced o = p as Outsourced;
-                                    saveData.WriteLine($"{o.partID},{o.name},{o.price},{o.inStock},{o.min},{o.max},N/A,{o.companyName}");
-                                    isDone = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    // Write Products
-                    foreach(Product p in share.inv.allProducts)
-                    {
-                        // get list of part ids
-                        string l = "";
-                        for(int i = 0;i < p.associatedParts.Count(); i++)
-                        {
-                            if (i == p.associatedParts.Count() - 1)
-                            {
-                                l += p.associatedParts[i].partID.ToString();
-                            }
-                            else
-                            {
-                                l += p.associatedParts[i].partID.ToString() + ";";
-                            }
-                            
-                        }
-                        saveData.WriteLine($"{l},{p.productID},{p.name},{p.price},{p.inStock},{p.min},{p.max}");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: " + e.Message);
-
-            }
-        }
-        
-
         public MainWindow()
         {
-            //if (inv == null)
-            //{
-            //    readData(@"..\\..\\..\\Data.txt");
-            //}
- 
+            Sql db = new();
+
+            if (inv == null)
+            {
+                inv = new Inventory(db.GetProducts(), db.GetParts());
+                share.inv = inv;
+            }
+            
             InitializeComponent();
-            //PartsTable.ItemsSource = share.inv.allParts;
-            //ProductTable.ItemsSource = share.inv.allProducts;
+            PartsTable.ItemsSource = share.inv.allParts;
+            ProductTable.ItemsSource = share.inv.allProducts;
         }
        
         //Page Buttons
         private void ExitClicked(object sender, RoutedEventArgs e)
         {
-            //writeData(@"..\\..\\..\\Data.txt");
+           
             this.Close();
         }
 

@@ -32,9 +32,12 @@ namespace Capstone.Windows
             MinTextBox.Text = p.min.ToString();
 
             //Fill associated parts list
-            foreach(Part par in p.associatedParts)
+            string[] pids = p.associatedParts.Split(',');
+
+            foreach(string id in pids)
             {
-                partsList.Add(par);
+                Sql db = new();
+                partsList.Add(db.GetPart(int.Parse(id)));
             }
             
             // assign datagrid source
@@ -157,13 +160,15 @@ namespace Capstone.Windows
             int min = int.Parse(MinTextBox.Text);
             int max = int.Parse(MaxTextBox.Text);
             int stock = int.Parse(InventoryTextBox.Text);
+            Sql db = new();
 
             if (min <= max && stock <= max && stock >= min)
             {
                 
                 //Create new Product and add it to inventory
-                Product p = new Product(partsList, int.Parse(IdTextBox.Text), NameTextBox.Text, decimal.Parse(PriceTextBox.Text), int.Parse(InventoryTextBox.Text), int.Parse(MinTextBox.Text), int.Parse(MaxTextBox.Text));
+                Product p = new Product(Product.PartsListToString(partsList), int.Parse(IdTextBox.Text), NameTextBox.Text, decimal.Parse(PriceTextBox.Text), int.Parse(InventoryTextBox.Text), int.Parse(MinTextBox.Text), int.Parse(MaxTextBox.Text));
                 share.inv.updateProduct(int.Parse(IdTextBox.Text), p);
+                db.UpdatePro(p);
                 this.Close();
                 
             }

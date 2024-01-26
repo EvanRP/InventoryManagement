@@ -92,10 +92,11 @@ namespace Capstone.Windows
 
         public PartModify(int toModID)
         {
-
+            
             mainInv = share.inv;
             toMod = mainInv.lookupPart(toModID);
 
+            Sql db = new();
             iD = toMod.partID;
             name = toMod.name;
             price = toMod.price;
@@ -113,24 +114,21 @@ namespace Capstone.Windows
             minTextBox.Text = min.ToString();
 
             // Figure out if Part is Inhouse ot OutSourced
-            for (int index = 0; index < share.inHouseIDs.Count; index++)
+            
+            bool isInhouse = db.IsInhouse(iD);
+            if(isInhouse)
             {
-
-                if (iD == share.inHouseIDs[index])
-                {
-                    Inhouse i = toMod as Inhouse;
-                    machineTextBox.Text = i.machineID.ToString();
-                    inHouseRadio.IsChecked = true;
-                    oType = "in";
-                    break;
-                }
-                if (index == share.inHouseIDs.Count - 1)
-                {
-                    Outsourced o = toMod as Outsourced;
-                    companyTextBox.Text = o.companyName.ToString();
-                    outSourcedRadio.IsChecked = true;
-                    oType = "out";
-                }
+                Inhouse i = toMod as Inhouse;
+                machineTextBox.Text = i.machineID.ToString();
+                inHouseRadio.IsChecked = true;
+                oType = "in";
+            }
+            else
+            {
+                Outsourced o = toMod as Outsourced;
+                companyTextBox.Text = o.companyName.ToString();
+                outSourcedRadio.IsChecked = true;
+                oType = "out";
             }
 
 
@@ -159,6 +157,7 @@ namespace Capstone.Windows
 
         private void saveClicked(object sender, RoutedEventArgs e)
         {
+            Sql db = new();
             iD = int.Parse(partTextBox.Text);
             name = nameTextBox.Text;
             stock = int.Parse(inventoryTextBox.Text);
@@ -178,8 +177,12 @@ namespace Capstone.Windows
                     mainInv.updatePart(iD, n);
                     if (oType != "in")
                     {
-                        share.inHouseIDs.Add(iD);
-                        share.outSourcedIDs.Remove(iD);
+                        //remove from inhouse table
+                        db.MovePart(iD, n);
+                    }
+                    else
+                    {
+                        db.UpdatePart(n);
                     }
                     this.Close();
                 }
@@ -192,8 +195,11 @@ namespace Capstone.Windows
                     mainInv.updatePart(iD, n);
                     if (oType != "out")
                     {
-                        share.inHouseIDs.Remove(iD);
-                        share.outSourcedIDs.Add(iD);
+                        db.MovePart(iD, n);
+                    }
+                    else
+                    {
+                        db.UpdatePart(n);
                     }
                     this.Close();
                 }
