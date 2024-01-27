@@ -26,6 +26,7 @@ namespace Capstone.Windows
             int orderMoreBy = 5;
             Sql db = new();
             InitializeComponent();
+            DateTime dt = DateTime.Now;
 
             // get inventory
             BindingList<Part> partInv = db.GetParts();
@@ -37,11 +38,11 @@ namespace Capstone.Windows
             // report section titles
             Label partsLabel = new Label()
             {
-                Content = "Parts With Low Inventory"
+                Content = "Parts With Low Inventory" + "    " + dt.ToString("dd-MMM-yyyy HH:mm")
             };
             Label productLabel = new Label()
             {
-                Content = "Products With Low Inventory"
+                Content = "Products With Low Inventory" + "    " + dt.ToString("dd-MMM-yyyy HH:mm")
             };
 
             mainStack.Children.Add(partsLabel);
