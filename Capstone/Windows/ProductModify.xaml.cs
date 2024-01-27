@@ -36,8 +36,11 @@ namespace Capstone.Windows
 
             foreach(string id in pids)
             {
-                Sql db = new();
-                partsList.Add(db.GetPart(int.Parse(id)));
+                if(int.TryParse(id, out _))
+                {
+                    Sql db = new();
+                    partsList.Add(db.GetPart(int.Parse(id)));
+                }
             }
             
             // assign datagrid source
