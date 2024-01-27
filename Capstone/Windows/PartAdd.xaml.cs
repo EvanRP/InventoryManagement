@@ -137,7 +137,7 @@ namespace Capstone.Windows
                 {
                     machineID = int.Parse(machineTextBox.Text);
                     Inhouse n = new Inhouse(iD, name, price, stock, min, max, machineID);
-                    mainInv.updatePart(iD, n);
+                    mainInv.addPart(n);
                     db.AddToDB(n);
                     this.Close();
                 }
@@ -147,7 +147,7 @@ namespace Capstone.Windows
                 {
                     cName = companyTextBox.Text;
                     Outsourced o = new Outsourced(iD, name, price, stock, min, max, cName);
-                    mainInv.updatePart(iD, o);
+                    mainInv.addPart(o);
                     db.AddToDB(o);
                     this.Close();
                 }
