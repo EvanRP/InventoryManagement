@@ -17,10 +17,10 @@ namespace Capstone.Classes
         public string Password { get; set; }
        
         
-        public string getPassword()
-        {
-            return this.Password;
-        }
+        //public string getPassword()
+        //{
+        //    return this.Password;
+        //}
         
         public User()
         {

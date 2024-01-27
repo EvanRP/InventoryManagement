@@ -20,16 +20,11 @@ namespace Capstone.Classes
             createTable("Product");
             createTable("User");
         }
-        public SQLiteConnection GetConn()
-        {
-            return this.db;
-        }
         private bool tableExists(string tableName)
         {   // returns true if table exists
             var table = db.GetTableInfo(tableName);
             return table.Count > 0;
         }
-
         public void createTable(string tableName)
         {
             // if table does not exist create table
@@ -57,7 +52,6 @@ namespace Capstone.Classes
                 }
             }
         }
-
         public User getUser(string uName)
         {
             User usr = new();
