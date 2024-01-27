@@ -15,12 +15,6 @@ namespace Capstone.Classes
         public int Uid { get; set; }
         public string UName {  get; set; }
         public string Password { get; set; }
-       
-        
-        //public string getPassword()
-        //{
-        //    return this.Password;
-        //}
         
         public User()
         {
