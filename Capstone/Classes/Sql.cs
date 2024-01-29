@@ -9,7 +9,8 @@ namespace Capstone.Classes
     class Sql
     {
         private readonly SQLiteConnection db;
-        private static string dbPath = "..\\..\\..\\Data.db";
+        //private static string dbPath = "..\\..\\..\\Data.db";
+        private static string dbPath = "data\\Data.db";
 
         //public SQLiteConnection getDB() { return db; }
         public Sql()

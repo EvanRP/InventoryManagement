@@ -3,18 +3,30 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capstone", "Capstone\Capstone.csproj", "{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Capstone", "Capstone\Capstone.csproj", "{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		capstoneDone|Any CPU = capstoneDone|Any CPU
+		capstoneDone|x64 = capstoneDone|x64
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}.capstoneDone|Any CPU.ActiveCfg = capstoneDone|Any CPU
+		{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}.capstoneDone|Any CPU.Build.0 = capstoneDone|Any CPU
+		{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}.capstoneDone|x64.ActiveCfg = capstoneDone|x64
+		{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}.capstoneDone|x64.Build.0 = capstoneDone|x64
 		{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}.Debug|x64.ActiveCfg = Debug|x64
+		{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}.Debug|x64.Build.0 = Debug|x64
 		{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}.Release|x64.ActiveCfg = Release|x64
+		{58E1E0FF-EE39-47AE-BBE9-1E88702A3630}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
