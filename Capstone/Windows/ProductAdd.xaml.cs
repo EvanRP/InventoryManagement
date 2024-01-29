@@ -12,6 +12,7 @@ namespace Capstone.Windows
     /// </summary>
     public partial class ProductAdd : Window
     {
+        BindingList<Part> AllParts;
         BindingList<Part> partsList;
         SharedData share = (Application.Current as App).Shared;
         Part selectedAddPart;
@@ -27,9 +28,10 @@ namespace Capstone.Windows
             InitializeComponent();
 
             IdTextBox.Text = nextId.ToString();
+            AllParts = new BindingList<Part>(share.inv.allParts.ToList());
             partsList = new BindingList<Part>();
 
-            PartsTable.ItemsSource = share.inv.allParts;
+            PartsTable.ItemsSource = AllParts;
             PartsTable_Copy.ItemsSource = partsList;
            
         }
@@ -125,6 +127,7 @@ namespace Capstone.Windows
             if(selectedAddPart != null)
             {
                 partsList.Add(selectedAddPart);
+                AllParts.Remove(selectedAddPart);
                 checkNull();
             }
             else
@@ -141,6 +144,7 @@ namespace Capstone.Windows
             {
                 if (selectedProductPart != null)
                 {
+                    AllParts.Add(selectedProductPart);
                     partsList.Remove(selectedProductPart);
                 }
                 else

@@ -12,7 +12,7 @@ namespace Capstone.Windows
     /// </summary>
     public partial class ProductModify : Window
     {
-
+        BindingList<Part> parts;
         BindingList<Part> partsList;
         SharedData share = (Application.Current as App).Shared;
         Part selectedAddPart;
@@ -22,7 +22,8 @@ namespace Capstone.Windows
         {
             InitializeComponent();
             partsList = new BindingList<Part>();
-            
+            parts = new BindingList<Part>(share.inv.allParts.ToList());
+
             // Fill Text Boxes
             IdTextBox.Text = p.productID.ToString();
             NameTextBox.Text = p.name;
@@ -33,18 +34,22 @@ namespace Capstone.Windows
 
             //Fill associated parts list
             string[] pids = p.associatedParts.Split(',');
+           
 
             foreach(string id in pids)
             {
                 if(int.TryParse(id, out _))
                 {
                     Sql db = new();
-                    partsList.Add(db.GetPart(int.Parse(id)));
+                    Part par = db.GetPart(int.Parse(id));
+                    Part toRemove = parts.FirstOrDefault(p=>p.partID.Equals(int.Parse(id)));
+                    partsList.Add(par);
+                    parts.Remove(toRemove);
                 }
             }
             
             // assign datagrid source
-            PartsTable.ItemsSource = share.inv.allParts;
+            PartsTable.ItemsSource = parts;
             PartsTable_Copy.ItemsSource = partsList;
         }
 
@@ -101,20 +106,20 @@ namespace Capstone.Windows
             // check if search box is empty
             if (string.IsNullOrEmpty(s))
             {
-                dg.ItemsSource = share.inv.allParts;
+                dg.ItemsSource = parts;
                 return;
             }
             // if text box alphabetic see if part name contains string 
             else if (!int.TryParse(s, out _))
             {
-                var searchResults = share.inv.allParts.Where(p => p.name.Contains(s));
+                var searchResults = parts.Where(p => p.name.Contains(s));
                 dg.ItemsSource = searchResults;
                 return;
             }
             // if text box is numeric check if part id equals string
             else if (int.TryParse(s, out _))
             {
-                var searchResults = share.inv.allParts.Where(p => p.partID == int.Parse(s));
+                var searchResults = parts.Where(p => p.partID == int.Parse(s));
                 dg.ItemsSource = searchResults;
                 return;
             }
@@ -134,6 +139,7 @@ namespace Capstone.Windows
             if (selectedAddPart != null)
             {
                 partsList.Add(selectedAddPart);
+                parts.Remove(selectedAddPart);
             }
             else
             {
@@ -149,6 +155,7 @@ namespace Capstone.Windows
             {
                 if (selectedProductPart != null)
                 {
+                    parts.Add(selectedProductPart);
                     partsList.Remove(selectedProductPart);
                 }
                 else
