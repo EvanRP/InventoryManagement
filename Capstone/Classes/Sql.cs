@@ -76,11 +76,13 @@ namespace Capstone.Classes
         }
         public Part GetPart(int pId)
         {
+            // return part that has matching part id
             BindingList<Part> parts = GetParts();
             return parts.FirstOrDefault(p => p.partID == pId);
         }
         public bool IsInhouse(int pId)
         {
+            // returns true if part is in the Inhouse Table
             Inhouse P = db.Table<Inhouse>().FirstOrDefault(p => p.partID == pId);
             if (P == null)
             {
@@ -93,35 +95,41 @@ namespace Capstone.Classes
         }
         public BindingList<Product> GetProducts()
         {
-
+            // returns bindinglist of all products
             BindingList<Product> blPro = new(db.Table<Product>().ToList());
             return blPro;
         }
         public void MovePart(int pId, Inhouse i)
         {
+            // deltes part from Outsourced and adds newly created Inhouse to the inhouse table
             db.Delete(GetPart(pId));
             db.Insert(i);
         }
         public void MovePart(int pId, Outsourced o)
         {
+            // deltes part from Inhouse and adds newly created outsourced to the outsourced table
             db.Delete(GetPart(pId));
             db.Insert(o);
         }
         public void UpdatePart(Inhouse i)
         {
+            //updates the provided part
             db.Update(i);
         }
         public void UpdatePart(Outsourced o)
         {
+            //updates the provided part
             db.Update(o);
 
         }
         public void UpdatePro(Product pro)
         {
+            //updates the provided product
             db.Update(pro);
         }
         public int GetNextId(string table)
         {
+            // returns the next id for the provided table
             if(table == "product")
             {
                 Product lastPro = db.Table<Product>().OrderByDescending(p => p.productID).FirstOrDefault();
@@ -160,26 +168,32 @@ namespace Capstone.Classes
         }
         public int DeleteObject(Inhouse n)
         {
+            // deletes provided Inhouse from the inhouse table
             return db.Delete(n);
         }
         public int DeleteObject(Outsourced o)
         {
+            // deletes provided outsourced from the outsourced table
             return db.Delete(o);
         }
         public int DeleteObject(Product pro)
         {
+            // deletes provided product from the product table
             return db.Delete(pro);
         }
         public void AddToDB(Inhouse n)
         {
+            // adds the provided part to the db
             db.Insert(n);
         }
         public void AddToDB(Outsourced o)
         {
+            // adds the provided part to the db
             db.Insert(o);
         }
         public void AddToDB(Product pro)
         {
+            // adds the provided product to the db
             db.Insert(pro);
         }
     }
