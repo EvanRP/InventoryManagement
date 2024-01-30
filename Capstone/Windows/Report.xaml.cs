@@ -45,10 +45,12 @@ namespace Capstone.Windows
                 Content = "Products With Low Inventory" + "    " + dt.ToString("dd-MMM-yyyy HH:mm")
             };
 
+            // add part label to main stack and change the alignment of the section titles
             mainStack.Children.Add(partsLabel);
             partsLabel.HorizontalAlignment = HorizontalAlignment.Center;
             productLabel.HorizontalAlignment = HorizontalAlignment.Center;
 
+            // create part columns
             StackPanel partNameCol = new()
             {
                 Orientation = Orientation.Vertical,
@@ -65,6 +67,7 @@ namespace Capstone.Windows
                 Margin = new Thickness(10, 5, 10, 5)
             };
 
+            // create product columns
             StackPanel proNameCol = new()
             {
                 Orientation = Orientation.Vertical,
@@ -81,17 +84,20 @@ namespace Capstone.Windows
                 Margin = new Thickness(10, 5, 10, 5)
             };
 
+            // create stack panel that will hold part columns
             StackPanel partReport = new()
             {
                 Orientation = Orientation.Horizontal,
                 Margin = new Thickness(10, 10, 10, 10)
             };
+            // create stack panel that will hold product columns
             StackPanel productReport = new()
             {
                 Orientation = Orientation.Horizontal,
                 Margin = new Thickness(10, 10, 10, 10)
             };
 
+            // create borders for reports
             Border productBorder = new Border()
             {
                 BorderBrush = Brushes.Black,
@@ -105,7 +111,7 @@ namespace Capstone.Windows
             };
             
 
-            // create colomn titles
+            // create column titles
 
             TextBlock nameTitle = new TextBlock
             {
@@ -125,6 +131,8 @@ namespace Capstone.Windows
             partNameCol.Children.Add(nameTitle);
             partInStockCol.Children.Add(inStockTitle);
             partMinStockCol.Children.Add(minStockTitle);
+
+            // fill columns
             foreach(Part p in partInv)
             {
                 if(p.inStock - orderMoreBy <= p.min)
@@ -147,14 +155,16 @@ namespace Capstone.Windows
                     partMinStockCol.Children.Add(minStockAmount);
                 }
             }
+            // add columns to report stack
             partReport.Children.Add(partNameCol);
             partReport.Children.Add(partInStockCol);
             partReport.Children.Add(partMinStockCol);
-
+            // put border around report
             partBorder.Child = partReport;
-
+            // put part report on main stack
             mainStack.Children.Add(partBorder);
 
+            // create product report column titles
             TextBlock productNameTitle = new TextBlock
             {
                 Text = "Product Name",
@@ -170,12 +180,13 @@ namespace Capstone.Windows
                 Text = "Minimum Required",
                 TextDecorations = TextDecorations.Underline
             };
-
+            // add titles to columns
             proNameCol.Children.Add(productNameTitle);
             proInStockCol.Children.Add(productInStockTitle);
             proMinStockCol.Children.Add(productMinStockTitle);
-
+            // put product report title on main stack
             mainStack.Children.Add(productLabel);
+            // fill product report columns
             foreach(Product p in proInv)
             {
                 if (p.inStock - orderMoreBy <= p.min)
@@ -198,13 +209,15 @@ namespace Capstone.Windows
                     proMinStockCol.Children.Add(minStockAmount);
                 }
             }
+            //put product columns in report stack
             productReport.Children.Add(proNameCol);
             productReport.Children.Add(proInStockCol);
             productReport.Children.Add(proMinStockCol);
-
+            // add border to product report stack
             productBorder.Child = productReport;
+            // put product report on the main stack
             mainStack.Children.Add(productBorder);
-
+            // add main stack to scroll view
             sView.Content = mainStack;
         }
 
